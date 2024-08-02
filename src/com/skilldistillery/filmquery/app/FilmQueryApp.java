@@ -30,7 +30,12 @@ public class FilmQueryApp {
   }
 
   private void startUserInterface(Scanner input) {
-    
+    //TODO
+	  // do-while loop:
+	  // Print Menu
+	  // Get User Choice
+	  // Call DAO methods to get data
+	  // Display results
   }
 
 }

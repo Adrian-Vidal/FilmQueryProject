@@ -1,10 +1,12 @@
 package com.skilldistillery.filmquery.entities;
 
+import java.util.List;
+
 public class Film {
 	private int id;
 	private String title;
 	private String description;
-	private Integer realeaseYear;
+	private Integer releaseYear;
 	private int languageId;
 	private int rentalDuration;
 	private double rentalRate;
@@ -12,6 +14,7 @@ public class Film {
 	private double replacementCost;
 	private String rating;
 	private String specialFeatures;
+	private List<Actor> actors;
 	
 	public Film() {
 		super();
@@ -23,7 +26,7 @@ public class Film {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.realeaseYear = realeaseYear;
+		this.releaseYear = realeaseYear;
 		this.languageId = languageId;
 		this.rentalDuration = rentalDuration;
 		this.rentalRate = rentalRate;
@@ -32,6 +35,7 @@ public class Film {
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
 	}
+	
 
 	public int getId() {
 		return id;
@@ -57,12 +61,12 @@ public class Film {
 		this.description = description;
 	}
 
-	public Integer getRealeaseYear() {
-		return realeaseYear;
+	public Integer getReleaseYear() {
+		return releaseYear;
 	}
 
-	public void setRealeaseYear(Integer realeaseYear) {
-		this.realeaseYear = realeaseYear;
+	public void setReleaseYear(Integer realeaseYear) {
+		this.releaseYear = realeaseYear;
 	}
 
 	public int getLanguageId() {
@@ -120,10 +124,18 @@ public class Film {
 	public void setSpecialFeatures(String specialFeatures) {
 		this.specialFeatures = specialFeatures;
 	}
+	
+	public List<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<Actor> actors) {
+		this.actors = actors;
+	}
 
 	@Override
 	public String toString() {
-		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", realeaseYear=" + realeaseYear
+		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
 				+ ", languageId=" + languageId + ", rentalDuration=" + rentalDuration + ", rentalRate=" + rentalRate
 				+ ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
 				+ ", specialFeatures=" + specialFeatures + "]";
