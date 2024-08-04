@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.log.Jdk14Logger;
 import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
@@ -43,6 +44,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				List<Actor> actors = findActorsByFilmId(filmId);
 				film.setActors(actors);
 
+			} else {
+				Jdk14Logger jdk14Logger = new Jdk14Logger(sql);
+				jdk14Logger.logInfo("Film with ID " + filmId + " not found.");
 			}
 			rs.close();
 			stmt.close();
@@ -107,6 +111,49 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 
+	@Override
+	public List<Film> findFilmByKeyword(String keyword) {
+		List<Film> films = new ArrayList<>();
+	    String searchKeyword = "%" + keyword + "%"; // Use % to match any part of the title or description
+	    try {
+	        Connection conn = DriverManager.getConnection(URL, user, pass);
+	        String sql = "SELECT * FROM film WHERE title LIKE ? OR description LIKE ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, searchKeyword);
+	        stmt.setString(2, searchKeyword);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            Film film = new Film();
+	            film.setId(rs.getInt("id"));
+	            film.setTitle(rs.getString("title"));
+	            film.setDescription(rs.getString("description"));
+	            film.setReleaseYear(rs.getInt("release_year"));
+	            film.setLanguageId(rs.getInt("language_id"));
+	            film.setRentalDuration(rs.getInt("rental_duration"));
+	            film.setRentalRate(rs.getDouble("rental_rate"));
+	            film.setLength(rs.getInt("length"));
+	            film.setReplacementCost(rs.getDouble("replacement_cost"));
+	            film.setRating(rs.getString("rating"));
+	            film.setSpecialFeatures(rs.getString("special_features"));
+	            films.add(film);
+	            List<Actor> actors = findActorsByFilmId(film.getId());
+	            film.setActors(actors);
+	            
+	        } else {
+				Jdk14Logger jdk14Logger = new Jdk14Logger(sql);
+				jdk14Logger.logInfo("Film with keyword " + keyword + " not found.");
+			}
+	        
+	        rs.close();
+	        stmt.close();
+	        conn.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return films;
+	}
+
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -115,4 +162,5 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			e.printStackTrace();
 		}
 	}
+
 }

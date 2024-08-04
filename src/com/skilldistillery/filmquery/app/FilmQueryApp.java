@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
 import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
-import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
@@ -18,6 +17,7 @@ public class FilmQueryApp {
 //		app.test2();
 //		app.test3();
 		app.launch();
+		
 	}
 
 //	private void test() {
@@ -35,6 +35,8 @@ public class FilmQueryApp {
 //		System.out.println(actors);
 //	}
 
+	
+
 	private void launch() {
 		Scanner input = new Scanner(System.in);
 
@@ -44,17 +46,39 @@ public class FilmQueryApp {
 	}
 
 	private void startUserInterface(Scanner input) {
+		
+		do {
+			
+			System.out.println("=============================================================================\n"
+					+ "||									   ||\n"
+					+ "||  Welcome to the Film Query App, please select an option from the menu:  ||\n"
+					+ "||\t\t\t1.) Look up a film by its ID			   ||\n"
+					+ "||\t\t\t2.) Look up a film by a search word		   ||\n"
+					+ "||\t\t\t3.) Exit the application			   ||\n"
+					+ "||								  	   ||\n"
+					+ "=============================================================================\n");
+			
+			int userInput = input.nextInt();
+			if (userInput == 1) {
+				System.out.println("\nPlease enter the ID number of the film you would like to view:\n");
+					int userIdSelection = input.nextInt();
+					Film film = db.findFilmById(userIdSelection);
+					System.out.println("\n" + film + "\n");					
+			} else if (userInput == 2) {
+				System.out.println("\nUse keywords to search for a movie title");
+				String userIdSelection = input.next();
+				List<Film> film = db.findFilmByKeyword(userIdSelection);
+				System.out.println("\n" + film + "\n");
+				
+			} else if (userInput == 3) {
+				System.out.println("\n...[Application terminated]\n\n"
+						+ "Thank you for using the Film Query App!");
+				return;
+			}
+			
+		} while (input != null);
 		// TODO
 		// do-while loop:
-		do {
-			System.out.println("Welcome to the Film Query App, please choose from the following options: ");
-			int userInput = input.nextInt();
-
-			if (userInput == 1) {
-
-			}
-		} while (input != null);
-		// Print Menu
 		// Get User Choice
 		// Call DAO methods to get data
 		// Display results
